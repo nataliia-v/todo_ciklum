@@ -1,6 +1,6 @@
 export default function () {
 
-  const modalWindowContainer = document.createElement('div');
+  const modalWindowContainer = document.createElement('form');
   modalWindowContainer.className = 'disable-modal';
   modalWindowContainer.id = 'newTodoItem';
 
@@ -14,7 +14,7 @@ export default function () {
 
   const selectPriority= document.createElement('div');
   selectPriority.innerHTML = '<label for="priority">Priority</label>\n' +
-      '    <select id="priority" required class="cms-table-column">\n' +
+      '    <select id="priority" required class="options">\n' +
       '        <option>High</option>\n' +
       '        <option>Normal</option>\n' +
       '        <option>Low</option>\n' +

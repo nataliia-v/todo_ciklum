@@ -31,6 +31,7 @@ const selectOption = (array, className) => {
 const createButton = () => {
   let btn = document.createElement('button');
   btn.id = 'addNewTodo';
+  btn.type = 'submit';
   btn.innerHTML = 'Create';
 
   return btn;
