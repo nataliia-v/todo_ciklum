@@ -1,24 +1,26 @@
+export default function() {
+  // ////// searchByInput  - it's first filter
 
-export default function () {
-
-
-  //////// searchByInput  - it's first filter
-
-  let searchByInput = document.getElementById('searchByInput');
-  searchByInput.addEventListener('keyup', () => {
+  const searchByInput = document.getElementById("searchByInput");
+  searchByInput.addEventListener("keyup", () => {
     // Declare variables
-    let input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById('searchByInput');
+    let input;
+    let filter;
+    let ul;
+    let li;
+    let a;
+    let i;
+    let txtValue;
+    input = document.getElementById("searchByInput");
     filter = input.value.toUpperCase();
-    console.log('filer'+ filter);
+    console.log(`filer${filter}`);
     ul = document.getElementById("tableBody");
-    li = ul.getElementsByTagName('li');
+    li = ul.getElementsByTagName("li");
     console.log(li);
 
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
-
-      console.log('hello');
+      console.log("hello");
 
       a = li[i].getElementsByTagName("h3")[0];
       console.log(a);
@@ -29,7 +31,5 @@ export default function () {
         li[i].style.display = "none";
       }
     }
-
   });
-
 }
