@@ -3,28 +3,30 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    node: true
+    node: true,
   },
-  extends: ["eslint:recommended", "airbnb-base"],
+  extends: ['eslint:recommended', 'airbnb-base', 'plugin:prettier/recommended'],
   parserOptions: {
-    sourceType: "module"
+    sourceType: 'module',
   },
+  plugins: ['prettier'],
   rules: {
-    "comma-dangle": ["error", "always-multiline"],
-    indent: ["error", 2],
-    quotes: ["error", "single"],
-    semi: ["error", "always"],
-    "no-unused-vars": ["warn"],
-    "no-console": 0,
-    "import/no-extraneous-dependencies": [
-      "error",
+    'prettier/prettier': 'error',
+    'comma-dangle': ['error', 'always-multiline'],
+    indent: ['error', 2],
+    quotes: ['error', 'single'],
+    semi: ['error', 'always'],
+    'no-unused-vars': ['warn'],
+    'no-console': 0,
+    'import/no-extraneous-dependencies': [
+      'error',
       {
-        devDependencies: []
-      }
-    ]
+        devDependencies: [],
+      },
+    ],
   },
   globals: {
     $: true,
-    jQuery: true
-  }
+    jQuery: true,
+  },
 };

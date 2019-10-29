@@ -1,19 +1,19 @@
 // import createMenu from '../../components/menu/menu';
-import createHeader from "../../components/header/header";
-import filters from "../../components/filters/filters";
-import modal from "../../components/modalWindow/modalWindow";
-import searchByInput from "../../components/filters/searchByInput";
+import createHeader from '../../components/header/header';
+import filters from '../../components/filters/filters';
+import modal from '../../components/modalWindow/modalWindow';
+import searchByInput from '../../components/filters/searchByInput';
 
 // import todoItems from '../../components/todoItem/todoItem';
-import "./index.scss";
-import "normalize.css";
+import './index.scss';
+import 'normalize.css';
 // let menu = createMenu(['Главная','Блог'], 'menu');
-const header = createHeader(["TODOList"], "header");
+const header = createHeader(['TODOList'], 'header');
 
 // <div class="disable-modal" id="backdrop"></div>
-const backdrop = document.createElement("div");
-backdrop.className = "disable-modal";
-backdrop.id = "backdrop";
+const backdrop = document.createElement('div');
+backdrop.className = 'disable-modal';
+backdrop.id = 'backdrop';
 
 document.body.appendChild(header);
 document.body.appendChild(filters());
@@ -27,9 +27,9 @@ document.body.appendChild(modal());
 searchByInput();
 
 // ////// searchByPriority  - it's a second filter
-const searchByPriorityy = document.querySelector(".priority-filter");
+const searchByPriorityy = document.querySelector('.priority-filter');
 
-searchByPriorityy.addEventListener("change", () => {
+searchByPriorityy.addEventListener('change', () => {
   const optionsArr = searchByPriorityy.childNodes;
 
   // Declare variables
@@ -40,12 +40,12 @@ searchByPriorityy.addEventListener("change", () => {
   let a;
   let i;
   let txtValue;
-  input = document.getElementById(".priority-filter");
+  input = document.getElementById('.priority-filter');
 
   // ul = document.getElementById("tableBody");
   // li = ul.getElementsByTagName('li');
   // console.log(li);
-  filter = "";
+  filter = '';
 
   optionsArr.forEach(el => {
     if (el.selected === true) {
@@ -56,21 +56,21 @@ searchByPriorityy.addEventListener("change", () => {
   console.log(filter);
 });
 
-document.getElementById("newTodoItem").addEventListener("submit", saveTodoItem);
+document.getElementById('newTodoItem').addEventListener('submit', saveTodoItem);
 
 function saveTodoItem(e) {
   // Get form values
-  const titleTodo = document.getElementById("title").value;
-  const descriptionTodo = document.getElementById("description").value;
-  const priorityOptions = document.querySelector(".options");
+  const titleTodo = document.getElementById('title').value;
+  const descriptionTodo = document.getElementById('description').value;
+  const priorityOptions = document.querySelector('.options');
   const optionsArr = Array.from(priorityOptions);
 
   const todoItem = {
     title: titleTodo,
     description: descriptionTodo,
-    priority: "",
+    priority: '',
     id: `f${(+new Date()).toString(16)}`,
-    status: false
+    status: false,
   };
 
   optionsArr.forEach(el => {
@@ -83,23 +83,23 @@ function saveTodoItem(e) {
   //   return false;
   // }
 
-  if (localStorage.getItem("todos") === null) {
+  if (localStorage.getItem('todos') === null) {
     const todoItems = [];
     todoItems.push(todoItem);
-    localStorage.setItem("todos", JSON.stringify(todoItems));
+    localStorage.setItem('todos', JSON.stringify(todoItems));
     console.log(localStorage);
   } else {
-    const todoItems = JSON.parse(localStorage.getItem("todos"));
+    const todoItems = JSON.parse(localStorage.getItem('todos'));
     todoItems.push(todoItem);
-    localStorage.setItem("todos", JSON.stringify(todoItems));
+    localStorage.setItem('todos', JSON.stringify(todoItems));
     console.log(localStorage);
   }
 
   // Clear form
-  document.getElementById("newTodoItem").reset();
+  document.getElementById('newTodoItem').reset();
 
   // Re-fetch todos
-  const todos = JSON.parse(localStorage.getItem("todos"));
+  const todos = JSON.parse(localStorage.getItem('todos'));
   fetchTodos(todos);
 
   // Prevent form from submitting
@@ -108,40 +108,40 @@ function saveTodoItem(e) {
 
 // Fetch todos
 
-const todoItems = JSON.parse(localStorage.getItem("todos"));
+const todoItems = JSON.parse(localStorage.getItem('todos'));
 function fetchTodos(todoItems) {
   // let todoItems = JSON.parse(localStorage.getItem('todos'));
 
-  const tableContainer = document.getElementById("todos-table-container");
-  const oldTableBody = document.getElementById("tableBody");
+  const tableContainer = document.getElementById('todos-table-container');
+  const oldTableBody = document.getElementById('tableBody');
 
   tableContainer.removeChild(oldTableBody);
-  const newTableBody = document.createElement("ul");
-  newTableBody.id = "tableBody";
+  const newTableBody = document.createElement('ul');
+  newTableBody.id = 'tableBody';
 
   tableContainer.appendChild(newTableBody);
 
   if (todoItems) {
     todoItems.forEach(el => {
-      const currentRow = document.createElement("li");
-      const currentTitleTodo = document.createElement("h3");
-      const currentDescription = document.createElement("div");
-      const currentPriority = document.createElement("div");
-      const currentStatusBtn = document.createElement("div");
-      const currentEditBtn = document.createElement("div");
-      const currentDeleteBtn = document.createElement("div");
+      const currentRow = document.createElement('li');
+      const currentTitleTodo = document.createElement('h3');
+      const currentDescription = document.createElement('div');
+      const currentPriority = document.createElement('div');
+      const currentStatusBtn = document.createElement('div');
+      const currentEditBtn = document.createElement('div');
+      const currentDeleteBtn = document.createElement('div');
       // let toggleInput = document.createElement('input');
 
       currentRow.id = el.id;
       // toggleInput.type = 'text';
 
-      currentStatusBtn.className = "status-btn";
-      currentRow.className = "todoItem";
-      currentEditBtn.className = "edit-btn";
-      currentDeleteBtn.className = "delete-btn";
-      currentTitleTodo.className = "title-todo";
-      currentDescription.className = "description-todo";
-      currentPriority.className = "priority";
+      currentStatusBtn.className = 'status-btn';
+      currentRow.className = 'todoItem';
+      currentEditBtn.className = 'edit-btn';
+      currentDeleteBtn.className = 'delete-btn';
+      currentTitleTodo.className = 'title-todo';
+      currentDescription.className = 'description-todo';
+      currentPriority.className = 'priority';
 
       currentTitleTodo.innerHTML = el.title;
       currentDescription.innerHTML = el.description;
@@ -162,12 +162,12 @@ function fetchTodos(todoItems) {
   }
   // /Delete todos (in fetchTodos. I can't do it in other function because I have NodeList, and addEventListener don't work with NodeList)
 
-  const deleteBtns = document.querySelectorAll(".delete-btn");
+  const deleteBtns = document.querySelectorAll('.delete-btn');
 
   for (let i = 0; i < deleteBtns.length; i++) {
-    deleteBtns[i].addEventListener("click", $event => {
+    deleteBtns[i].addEventListener('click', $event => {
       const currentId = $event.target.parentElement.parentElement.id;
-      const todoItems = JSON.parse(localStorage.getItem("todos"));
+      const todoItems = JSON.parse(localStorage.getItem('todos'));
 
       for (let i = 0; i < todoItems.length; i++) {
         if (todoItems[i].id === currentId) {
@@ -175,9 +175,9 @@ function fetchTodos(todoItems) {
         }
       }
 
-      localStorage.setItem("todos", JSON.stringify(todoItems));
+      localStorage.setItem('todos', JSON.stringify(todoItems));
 
-      const todos = JSON.parse(localStorage.getItem("todos"));
+      const todos = JSON.parse(localStorage.getItem('todos'));
       fetchTodos(todos);
     });
   }
@@ -224,9 +224,9 @@ function fetchTodos(todoItems) {
 
 function validateForm(title, description) {
   if (!title || !description) {
-    alert("Please fill in the form");
+    alert('Please fill in the form');
     return false;
   }
 }
-const todos = JSON.parse(localStorage.getItem("todos"));
+const todos = JSON.parse(localStorage.getItem('todos'));
 fetchTodos(todos);

@@ -1,14 +1,13 @@
-import "./filters.scss";
+import './filters.scss';
 
-const array1 = ["All", "Open", "Done"];
-const array2 = ["All", "High", "Normal", "Low"];
+const array1 = ['All', 'Open', 'Done'];
+const array2 = ['All', 'High', 'Normal', 'Low'];
 
 // Search todo-item by title
 
 const titleFilter = () => {
-  const filter = document.createElement("div");
-  const name =
-    '<input type="text" id="searchByInput" placeholder="search by title">';
+  const filter = document.createElement('div');
+  const name = '<input type="text" id="searchByInput" placeholder="search by title">';
   filter.innerHTML = name;
   return filter;
 };
@@ -16,9 +15,9 @@ const titleFilter = () => {
 // Filter todo-item by status or priority;
 
 const selectOption = (array, className) => {
-  const filterStatus = document.createElement("select");
+  const filterStatus = document.createElement('select');
   filterStatus.className = className;
-  let filterParameters = "";
+  let filterParameters = '';
   array.forEach(item => {
     filterParameters += `<option>${item}</option>`;
   });
@@ -30,34 +29,34 @@ const selectOption = (array, className) => {
 // button for modal or priority
 
 const createButton = () => {
-  const btn = document.createElement("button");
-  btn.id = "addNewTodo";
-  btn.type = "submit";
-  btn.innerHTML = "Create";
+  const btn = document.createElement('button');
+  btn.id = 'addNewTodo';
+  btn.type = 'submit';
+  btn.innerHTML = 'Create';
 
   return btn;
 };
 
 const createBodyForTodos = () => {
-  const bodyforTodos = document.createElement("span");
-  bodyforTodos.id = "tableBody";
+  const bodyforTodos = document.createElement('span');
+  bodyforTodos.id = 'tableBody';
   // bodyforTodos.innerHTML = 'Create';
 
   return bodyforTodos;
 };
 
 export default function() {
-  const todosTableContainer = document.createElement("div");
+  const todosTableContainer = document.createElement('div');
   // todosTableContainer.className = 'todos-table-container';
 
-  todosTableContainer.id = "todos-table-container";
+  todosTableContainer.id = 'todos-table-container';
 
-  const filtersContainer = document.createElement("div");
-  filtersContainer.className = "filters-container";
+  const filtersContainer = document.createElement('div');
+  filtersContainer.className = 'filters-container';
 
   filtersContainer.appendChild(titleFilter());
-  filtersContainer.appendChild(selectOption(array1, "status-filter"));
-  filtersContainer.appendChild(selectOption(array2, "priority-filter"));
+  filtersContainer.appendChild(selectOption(array1, 'status-filter'));
+  filtersContainer.appendChild(selectOption(array2, 'priority-filter'));
   filtersContainer.appendChild(createButton());
   todosTableContainer.appendChild(filtersContainer);
   todosTableContainer.appendChild(createBodyForTodos());
