@@ -1,13 +1,13 @@
 import './filters.scss';
 
-const array1 = ['all', 'open', 'done'];
-const array2 = ['all', 'high', 'normal', 'low'];
+const array1 = ['All', 'Open', 'Done'];
+const array2 = ['All', 'High', 'Normal', 'Low'];
 
 //Search todo-item by title
 
 const titleFilter = () => {
-  let filter = document.createElement('div'); // is a node
-  const name = "<input type=\"text\" placeholder=\"search by title\">";
+  let filter = document.createElement('div');
+  const name = "<input type=\"text\" id=\"searchByInput\" placeholder=\"search by title\">";
   filter.innerHTML = name;
   return filter;
 };
@@ -25,6 +25,7 @@ const selectOption = (array, className) => {
 
   return filterStatus;
 };
+
 
 //button for modal or priority
 

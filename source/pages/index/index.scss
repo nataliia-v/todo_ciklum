@@ -9,3 +9,25 @@ h1{
 i {
     width: 20px;
 }
+
+li input[type=text] {
+    display:none;
+}
+
+.todoItem input[type=text] {
+    display:block;
+}
+
+.todoItem #title {
+    display:none;
+}
+
+.filters-container {
+    margin-bottom: 20px;
+}
+
+#tableBody {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
