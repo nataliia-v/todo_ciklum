@@ -6,10 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "serv": "static build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint ./src/**/*.js",
-    "eslint-fix": "eslint ./src/**/*.js --fix"
+    "serve-build": "static build",
+    "eslint": "eslint --ext js src",
+    "eslint-fix": "eslint --fix --ext js src"
   },
   "keywords": [],
   "author": "",
@@ -57,14 +56,6 @@
   "lint-staged": {
     "*.{js,css,json,md}": [
       "prettier --write",
-      "git add"
-    ],
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.css": [
-      "stylelint --fix",
       "git add"
     ]
   }

@@ -15,7 +15,13 @@ module.exports = {
     quotes: ["error", "single"],
     semi: ["error", "always"],
     "no-unused-vars": ["warn"],
-    "no-console": 0
+    "no-console": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: []
+      }
+    ]
   },
   globals: {
     $: true,

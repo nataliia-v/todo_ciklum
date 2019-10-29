@@ -1,12 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const merge = require("webpack-merge");
+const webpack = require("webpack");
 const pug = require("./webpack/pug");
 const devserver = require("./webpack/devserver");
 const sass = require("./webpack/sass");
 const extractCSS = require("./webpack/css.extract");
 const css = require("./webpack/css");
-const webpack = require("webpack");
 const sourceMap = require("./webpack/sourceMap");
 const lintJS = require("./webpack/js.lint");
 const lintCSS = require("./webpack/sass.lint");
@@ -21,8 +21,8 @@ const PATHS = {
 const common = merge([
   {
     entry: {
-      index: PATHS.source + "/pages/index/index.js",
-      blog: PATHS.source + "/pages/blog/blog.js"
+      index: `${PATHS.source}/pages/index/index.js`,
+      blog: `${PATHS.source}/pages/blog/blog.js`
     },
     output: {
       path: PATHS.build,
@@ -36,12 +36,12 @@ const common = merge([
       new HtmlWebpackPlugin({
         filename: "index.html",
         chunks: ["index", "common"],
-        template: PATHS.source + "/pages/index/index.pug"
+        template: `${PATHS.source}/pages/index/index.pug`
       }),
       new HtmlWebpackPlugin({
         filename: "blog.html",
         chunks: ["blog", "common"],
-        emplate: PATHS.source + "/pages/blog/blog.pug"
+        emplate: `${PATHS.source}/pages/blog/blog.pug`
       })
     ],
     optimization: {
