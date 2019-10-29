@@ -32,6 +32,10 @@ function saveTodoItem(e) {
   let priorityOptions = document.querySelector('.options');
   let optionsArr = Array.from(priorityOptions);
 
+  if(!validateForm(titleTodo, descriptionTodo)){
+    return false;
+  }
+
   let todoItem = {
     title: titleTodo,
     description: descriptionTodo,
@@ -139,4 +143,12 @@ function fetchTodos(){
 
   }
 }
+
+function validateForm(title, description) {
+  if (!title || !description) {
+    alert('Please fill in the form');
+    return false;
+  }
+}
+
 fetchTodos();
