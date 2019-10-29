@@ -7,6 +7,7 @@ export default function(array, className) {
   array.forEach(item => {
     listItems += `<li>${item}</li>`;
   });
+
   header.innerHTML = listItems;
   return header;
 }
