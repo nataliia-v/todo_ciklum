@@ -3,10 +3,12 @@ import createHeader from '../../components/header/header';
 import filters from '../../components/filters/filters';
 import modal from '../../components/modalWindow/modalWindow';
 import searchByInput from '../../components/filters/searchByInput';
+import filterByPriority from '../../components/filters/filterByPriority';
 
 // import todoItems from '../../components/todoItem/todoItem';
 import './index.scss';
 import 'normalize.css';
+
 // let menu = createMenu(['Главная','Блог'], 'menu');
 const header = createHeader(['TODOList'], 'header');
 
@@ -20,97 +22,20 @@ document.body.appendChild(filters());
 document.body.appendChild(backdrop);
 document.body.appendChild(modal());
 
+// searchByInput  - it's a first filter
+searchByInput();
+
+// searchByPriority  - it's a second filter
+
+filterByPriority();
+
 // это нужно разнести по файлам
 // //////////////////////////////////////////////////////////////////////////////////////////
 
-// ////// searchByInput  - it's a first filter
-searchByInput();
-
-// ////// searchByPriority  - it's a second filter
-const searchByPriorityy = document.querySelector('.priority-filter');
-
-searchByPriorityy.addEventListener('change', () => {
-  const optionsArr = searchByPriorityy.childNodes;
-
-  // Declare variables
-  let input;
-  let filter;
-  let ul;
-  let li;
-  let a;
-  let i;
-  let txtValue;
-  input = document.getElementById('.priority-filter');
-
-  // ul = document.getElementById("tableBody");
-  // li = ul.getElementsByTagName('li');
-  // console.log(li);
-  filter = '';
-
-  optionsArr.forEach(el => {
-    if (el.selected === true) {
-      const currentOption = el.value;
-      filter = currentOption;
-    }
-  });
-  console.log(filter);
-});
-
-document.getElementById('newTodoItem').addEventListener('submit', saveTodoItem);
-
-function saveTodoItem(e) {
-  // Get form values
-  const titleTodo = document.getElementById('title').value;
-  const descriptionTodo = document.getElementById('description').value;
-  const priorityOptions = document.querySelector('.options');
-  const optionsArr = Array.from(priorityOptions);
-
-  const todoItem = {
-    title: titleTodo,
-    description: descriptionTodo,
-    priority: '',
-    id: `f${(+new Date()).toString(16)}`,
-    status: false,
-  };
-
-  optionsArr.forEach(el => {
-    if (el.selected === true) {
-      todoItem.priority = el.value;
-    }
-  });
-
-  // if(!validateForm(titleTodo, descriptionTodo)){
-  //   return false;
-  // }
-
-  if (localStorage.getItem('todos') === null) {
-    const todoItems = [];
-    todoItems.push(todoItem);
-    localStorage.setItem('todos', JSON.stringify(todoItems));
-    console.log(localStorage);
-  } else {
-    const todoItems = JSON.parse(localStorage.getItem('todos'));
-    todoItems.push(todoItem);
-    localStorage.setItem('todos', JSON.stringify(todoItems));
-    console.log(localStorage);
-  }
-
-  // Clear form
-  document.getElementById('newTodoItem').reset();
-
-  // Re-fetch todos
-  const todos = JSON.parse(localStorage.getItem('todos'));
-  fetchTodos(todos);
-
-  // Prevent form from submitting
-  e.preventDefault();
-}
-
 // Fetch todos
 
-const todoItems = JSON.parse(localStorage.getItem('todos'));
-function fetchTodos(todoItems) {
-  // let todoItems = JSON.parse(localStorage.getItem('todos'));
+function fetchTodos() {
+  const todoItems = JSON.parse(localStorage.getItem('todos'));
 
   const tableContainer = document.getElementById('todos-table-container');
   const oldTableBody = document.getElementById('tableBody');
@@ -126,7 +51,7 @@ function fetchTodos(todoItems) {
       const currentRow = document.createElement('li');
       const currentTitleTodo = document.createElement('h3');
       const currentDescription = document.createElement('div');
-      const currentPriority = document.createElement('div');
+      const currentPriority = document.createElement('span');
       const currentStatusBtn = document.createElement('div');
       const currentEditBtn = document.createElement('div');
       const currentDeleteBtn = document.createElement('div');
@@ -164,21 +89,20 @@ function fetchTodos(todoItems) {
 
   const deleteBtns = document.querySelectorAll('.delete-btn');
 
-  for (let i = 0; i < deleteBtns.length; i++) {
+  for (let i = 0; i < deleteBtns.length; i += 1) {
     deleteBtns[i].addEventListener('click', $event => {
       const currentId = $event.target.parentElement.parentElement.id;
-      const todoItems = JSON.parse(localStorage.getItem('todos'));
+      // const todoItems = JSON.parse(localStorage.getItem('todos'));
 
-      for (let i = 0; i < todoItems.length; i++) {
-        if (todoItems[i].id === currentId) {
-          todoItems.splice(i, 1);
+      for (let item = 0; item < todoItems.length; item += 1) {
+        if (todoItems[item].id === currentId) {
+          todoItems.splice(item, 1);
         }
       }
 
       localStorage.setItem('todos', JSON.stringify(todoItems));
 
-      const todos = JSON.parse(localStorage.getItem('todos'));
-      fetchTodos(todos);
+      fetchTodos();
     });
   }
 
@@ -222,11 +146,60 @@ function fetchTodos(todoItems) {
   // }
 }
 
-function validateForm(title, description) {
-  if (!title || !description) {
-    alert('Please fill in the form');
-    return false;
+function saveTodoItem(e) {
+  // Get form values
+  const titleTodo = document.getElementById('title').value;
+  const descriptionTodo = document.getElementById('description').value;
+  const priorityOptions = document.querySelector('.options');
+  const optionsArr = Array.from(priorityOptions);
+
+  const todoItem = {
+    title: titleTodo,
+    description: descriptionTodo,
+    priority: '',
+    id: `f${(+new Date()).toString(16)}`,
+    status: false,
+  };
+
+  optionsArr.forEach(el => {
+    if (el.selected === true) {
+      todoItem.priority = el.value;
+    }
+  });
+
+  // if(!validateForm(titleTodo, descriptionTodo)){
+  //   return false;
+  // }
+
+  if (localStorage.getItem('todos') === null) {
+    const todoItems = [];
+    todoItems.push(todoItem);
+    localStorage.setItem('todos', JSON.stringify(todoItems));
+    console.log(localStorage);
+  } else {
+    const todoItems = JSON.parse(localStorage.getItem('todos'));
+    todoItems.push(todoItem);
+    localStorage.setItem('todos', JSON.stringify(todoItems));
+    console.log(localStorage);
   }
+
+  // Clear form
+  document.getElementById('newTodoItem').reset();
+
+  // Re-fetch todos
+  fetchTodos();
+
+  // Prevent form from submitting
+  e.preventDefault();
 }
-const todos = JSON.parse(localStorage.getItem('todos'));
-fetchTodos(todos);
+
+document.getElementById('newTodoItem').addEventListener('submit', saveTodoItem);
+
+// function validateForm(title, description) {
+//   if (!title || !description) {
+//     alert('Please fill in the form');
+//     return false;
+//   }
+// }
+
+fetchTodos();
