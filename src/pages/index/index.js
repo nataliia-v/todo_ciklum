@@ -6,6 +6,7 @@ import searchByInput from '../../components/filters/searchByInput';
 import filterByPriority from '../../components/filters/filterByPriority';
 
 // import todoItems from '../../components/todoItem/todoItem';
+import deleteItem from '../../components/todoItem/deleteItem';
 import './index.scss';
 import 'normalize.css';
 
@@ -53,58 +54,137 @@ function fetchTodos() {
       const currentDescription = document.createElement('div');
       const currentPriority = document.createElement('span');
       const currentStatusBtn = document.createElement('div');
-      const currentEditBtn = document.createElement('div');
-      const currentDeleteBtn = document.createElement('div');
-      // let toggleInput = document.createElement('input');
+      const btnsWrap = document.createElement('span');
+      const dotsBtn = document.createElement('span');
+
+      const container = document.createElement('div');
+      container.className = 'container';
+
+      dotsBtn.className = 'dots-btn';
+      dotsBtn.innerHTML = '...';
+      btnsWrap.className = 'btns-wrap';
+      btnsWrap.setAttribute('visibility-wrap', 'false');
 
       currentRow.id = el.id;
-      // toggleInput.type = 'text';
 
       currentStatusBtn.className = 'status-btn';
       currentRow.className = 'todoItem';
-      currentEditBtn.className = 'edit-btn';
-      currentDeleteBtn.className = 'delete-btn';
       currentTitleTodo.className = 'title-todo';
       currentDescription.className = 'description-todo';
       currentPriority.className = 'priority';
 
       currentTitleTodo.innerHTML = el.title;
       currentDescription.innerHTML = el.description;
-      currentDeleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-      currentEditBtn.innerHTML = '<i class="fas fa-edit"></i>';
       currentPriority.innerHTML = el.priority;
+
+      if (el.status) {
+        currentRow.className = 'todoItem done';
+      }
+
+      container.appendChild(currentPriority);
+      container.appendChild(dotsBtn);
 
       currentRow.appendChild(currentTitleTodo);
       currentRow.appendChild(currentDescription);
-      currentRow.appendChild(currentPriority);
       currentRow.appendChild(currentStatusBtn);
-      // currentRow.appendChild(toggleInput);
-      currentRow.appendChild(currentEditBtn);
-      currentRow.appendChild(currentDeleteBtn);
+      currentRow.appendChild(container);
+      currentRow.appendChild(btnsWrap);
 
       newTableBody.appendChild(currentRow);
     });
   }
-  // /Delete todos (in fetchTodos. I can't do it in other function because I have NodeList, and addEventListener don't work with NodeList)
 
-  const deleteBtns = document.querySelectorAll('.delete-btn');
+  ///всплывающие кнопки при нажатии на троеточие done edit delete
+  let dots = document.querySelectorAll('.dots-btn');
+  let btnsWrap = document.querySelectorAll('.btns-wrap');
 
-  for (let i = 0; i < deleteBtns.length; i += 1) {
-    deleteBtns[i].addEventListener('click', $event => {
-      const currentId = $event.target.parentElement.parentElement.id;
-      // const todoItems = JSON.parse(localStorage.getItem('todos'));
+  for (let i = 0; i < dots.length; i += 1) {
+    dots[i].addEventListener('click', () => {
+      // btnsWrap.setAttribute('visibility-wrap', 'true');
+      dots[i].innerHTML = 'close';
 
-      for (let item = 0; item < todoItems.length; item += 1) {
-        if (todoItems[item].id === currentId) {
-          todoItems.splice(item, 1);
-        }
+      const doneItem = document.createElement('div');
+      const editItem = document.createElement('div');
+      const deleteItem = document.createElement('div');
+
+      doneItem.className = 'done-btn';
+      editItem.className = 'edit-btn';
+      deleteItem.className = 'delete-btn';
+
+      doneItem.innerHTML = 'done';
+      editItem.innerHTML = 'edit';
+      deleteItem.innerHTML = 'delete';
+
+      btnsWrap[i].appendChild(doneItem);
+      btnsWrap[i].appendChild(editItem);
+      btnsWrap[i].appendChild(deleteItem);
+
+      // Delete todo
+
+      const deleteBtns = document.querySelectorAll('.delete-btn');
+
+      for (let i = 0; i < deleteBtns.length; i += 1) {
+        const deleteBtns = document.querySelectorAll('.delete-btn');
+        deleteBtns[i].addEventListener('click', $event => {
+          const currentId = $event.target.parentElement.parentElement.id;
+          const todoItems = JSON.parse(localStorage.getItem('todos'));
+
+          for (let item = 0; item < todoItems.length; item += 1) {
+            if (todoItems[item].id === currentId) {
+              todoItems.splice(item, 1);
+            }
+          }
+
+          localStorage.setItem('todos', JSON.stringify(todoItems));
+
+          fetchTodos();
+        });
       }
 
-      localStorage.setItem('todos', JSON.stringify(todoItems));
+      // Done todo
 
-      fetchTodos();
+      const doneBtns = document.querySelectorAll('.done-btn');
+      for (let i = 0; i < doneBtns.length; i += 1) {
+        doneBtns[i].addEventListener('click', $event => {
+          const currentId = $event.target.parentElement.parentElement.id;
+          const todoItems = JSON.parse(localStorage.getItem('todos'));
+
+          for (let item = 0; item < todoItems.length; item += 1) {
+            if (todoItems[item].id === currentId) {
+              todoItems[item].status = 'true';
+            }
+          }
+          localStorage.setItem('todos', JSON.stringify(todoItems));
+
+          fetchTodos();
+        });
+      }
     });
   }
+
+  // // /Delete todos (in fetchTodos. I can't do it in other function because I have NodeList, and addEventListener don't work with NodeList)
+  //
+  // const deleteBtns = document.querySelectorAll('.delete-btn');
+  //
+  // for (let i = 0; i < deleteBtns.length; i += 1) {
+  //   const deleteBtns = document.querySelectorAll('.delete-btn');
+  //   deleteBtns[i].addEventListener('click', $event => {
+  //     console.log(deleteBtns);
+  //     const currentId = $event.target.parentElement.parentElement.id;
+  //     console.log(currentId);
+  //     const todoItems = JSON.parse(localStorage.getItem('todos'));
+  //
+  //     for (let item = 0; item < todoItems.length; item += 1) {
+  //       if (todoItems[item].id === currentId) {
+  //         todoItems.splice(item, 1);
+  //       }
+  //     }
+  //
+  //     localStorage.setItem('todos', JSON.stringify(todoItems));
+  //
+  //     fetchTodos();
+  //   });
+  // }
 
   // Edit an existing task.
   // let editBtns = document.querySelectorAll('.edit-btn');

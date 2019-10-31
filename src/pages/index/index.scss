@@ -31,3 +31,75 @@ li input[type=text] {
     justify-content: space-around;
     margin-bottom: 20px;
 }
+
+
+
+
+
+//////todos list
+
+.done {
+    background-color: rgba(181, 181, 181, 0.59);
+}
+
+//.btns-wrap {
+//    display: none;
+//}
+
+#todos-table-container li {
+
+    list-style-type: none;
+    border: 2px black solid;
+    width: 200px;
+    height: 200px;
+    padding: 20px 15px;
+
+    .title-todo {
+        margin-bottom: 40px;
+    }
+
+    .description-todo {
+        margin-bottom: 40px;
+        font-size: 20px;
+    }
+
+    .priority {
+        border: 2px black dashed;
+        padding: 5px 10px;
+        border-radius: 7px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+
+        .dots-btn {
+            border: 2px black solid;
+            padding: 5px 10px;
+            border-radius: 7px;
+        }
+    }
+
+}
+
+.none {
+    display: none;
+}
+
+.btns-wrap {
+
+}
+
+.done-btn,.edit-btn, .delete-btn {
+    background-color: #777777;
+}
+
+.done-btn:hover {
+    background-color: white;
+}
+.edit-btn:hover {
+    background-color: white;
+}
+.delete-btn:hover {
+    background-color: white;
+}
