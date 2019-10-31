@@ -1,17 +1,13 @@
-h1{
-    color: #ff0000;
-}
-
-.disable-modal {
-    //visibility: hidden;
-}
-
 i {
     width: 20px;
 }
 
 li input[type=text] {
     display:none;
+}
+.todoItem {
+    margin-right: 30px;
+    margin-bottom: 30px;
 }
 
 .todoItem input[type=text] {
@@ -25,16 +21,6 @@ li input[type=text] {
 .filters-container {
     margin-bottom: 20px;
 }
-
-#tableBody {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-
-
-
 
 //////todos list
 
@@ -53,6 +39,7 @@ li input[type=text] {
     width: 200px;
     height: 200px;
     padding: 20px 15px;
+    position: relative;
 
     .title-todo {
         margin-bottom: 40px;
@@ -69,6 +56,12 @@ li input[type=text] {
         border-radius: 7px;
     }
 
+    .icon-wrap {
+        position: absolute;
+        top: -7px;
+        right: -13px;
+    }
+
     .container {
         display: flex;
         justify-content: space-between;
@@ -82,16 +75,18 @@ li input[type=text] {
 
 }
 
-.none {
-    display: none;
-}
 
 .btns-wrap {
+    padding: 5px 15px;
+    //width:50px;
 
 }
 
 .done-btn,.edit-btn, .delete-btn {
-    background-color: #777777;
+    background-color: rgb(181, 181, 181);
+    padding: 5px 15px;
+    border: 1px black solid;
+    //width: 100%;
 }
 
 .done-btn:hover {
@@ -103,3 +98,32 @@ li input[type=text] {
 .delete-btn:hover {
     background-color: white;
 }
+
+
+#tableBody {
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 0 50px;
+}
+
+i {
+    background-color: white;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.cms-table-column {
+    border: 1px solid black;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.options {
+    margin-bottom: 10px;
+}
+

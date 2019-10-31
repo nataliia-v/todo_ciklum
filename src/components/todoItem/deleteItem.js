@@ -4,7 +4,6 @@ export default function(fetchTodos) {
   const deleteBtns = document.querySelectorAll('.delete-btn');
 
   for (let i = 0; i < deleteBtns.length; i += 1) {
-    const deleteBtns = document.querySelectorAll('.delete-btn');
     deleteBtns[i].addEventListener('click', $event => {
       console.log(deleteBtns);
       const currentId = $event.target.parentElement.parentElement.id;

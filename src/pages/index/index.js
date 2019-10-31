@@ -1,27 +1,23 @@
 // import createMenu from '../../components/menu/menu';
 import createHeader from '../../components/header/header';
 import filters from '../../components/filters/filters';
-import modal from '../../components/modalWindow/modalWindow';
+import modalWindow from '../../components/modalWindow/modalWindow';
 import searchByInput from '../../components/filters/searchByInput';
 import filterByPriority from '../../components/filters/filterByPriority';
 
+import saveTodoItem from '../../components/todoItem/saveTodoItem';
+
 // import todoItems from '../../components/todoItem/todoItem';
-import deleteItem from '../../components/todoItem/deleteItem';
+// import deleteItem from '../../components/todoItem/deleteItem';
 import './index.scss';
 import 'normalize.css';
 
 // let menu = createMenu(['Главная','Блог'], 'menu');
 const header = createHeader(['TODOList'], 'header');
 
-// <div class="disable-modal" id="backdrop"></div>
-const backdrop = document.createElement('div');
-backdrop.className = 'disable-modal';
-backdrop.id = 'backdrop';
-
 document.body.appendChild(header);
 document.body.appendChild(filters());
-document.body.appendChild(backdrop);
-document.body.appendChild(modal());
+document.body.appendChild(modalWindow());
 
 // searchByInput  - it's a first filter
 searchByInput();
@@ -35,7 +31,7 @@ filterByPriority();
 
 // Fetch todos
 
-function fetchTodos() {
+export default function fetchTodos() {
   const todoItems = JSON.parse(localStorage.getItem('todos'));
 
   const tableContainer = document.getElementById('todos-table-container');
@@ -79,6 +75,10 @@ function fetchTodos() {
 
       if (el.status) {
         currentRow.className = 'todoItem done';
+        const icon = document.createElement('div');
+        icon.className = 'icon-wrap';
+        icon.innerHTML = '<i class="far fa-check-square"></i>';
+        currentRow.appendChild(icon);
       }
 
       container.appendChild(currentPriority);
@@ -94,9 +94,9 @@ function fetchTodos() {
     });
   }
 
-  ///всплывающие кнопки при нажатии на троеточие done edit delete
-  let dots = document.querySelectorAll('.dots-btn');
-  let btnsWrap = document.querySelectorAll('.btns-wrap');
+  // /всплывающие кнопки при нажатии на троеточие done edit delete
+  const dots = document.querySelectorAll('.dots-btn');
+  const btnsWrap = document.querySelectorAll('.btns-wrap');
 
   for (let i = 0; i < dots.length; i += 1) {
     dots[i].addEventListener('click', () => {
@@ -123,11 +123,10 @@ function fetchTodos() {
 
       const deleteBtns = document.querySelectorAll('.delete-btn');
 
-      for (let i = 0; i < deleteBtns.length; i += 1) {
-        const deleteBtns = document.querySelectorAll('.delete-btn');
-        deleteBtns[i].addEventListener('click', $event => {
+      for (let el = 0; el < deleteBtns.length; el += 1) {
+        deleteBtns[el].addEventListener('click', $event => {
           const currentId = $event.target.parentElement.parentElement.id;
-          const todoItems = JSON.parse(localStorage.getItem('todos'));
+          // const todoItems = JSON.parse(localStorage.getItem('todos'));
 
           for (let item = 0; item < todoItems.length; item += 1) {
             if (todoItems[item].id === currentId) {
@@ -144,10 +143,10 @@ function fetchTodos() {
       // Done todo
 
       const doneBtns = document.querySelectorAll('.done-btn');
-      for (let i = 0; i < doneBtns.length; i += 1) {
-        doneBtns[i].addEventListener('click', $event => {
+      for (let index = 0; index < doneBtns.length; index += 1) {
+        doneBtns[index].addEventListener('click', $event => {
           const currentId = $event.target.parentElement.parentElement.id;
-          const todoItems = JSON.parse(localStorage.getItem('todos'));
+          // const todoItems = JSON.parse(localStorage.getItem('todos'));
 
           for (let item = 0; item < todoItems.length; item += 1) {
             if (todoItems[item].id === currentId) {
@@ -161,30 +160,6 @@ function fetchTodos() {
       }
     });
   }
-
-  // // /Delete todos (in fetchTodos. I can't do it in other function because I have NodeList, and addEventListener don't work with NodeList)
-  //
-  // const deleteBtns = document.querySelectorAll('.delete-btn');
-  //
-  // for (let i = 0; i < deleteBtns.length; i += 1) {
-  //   const deleteBtns = document.querySelectorAll('.delete-btn');
-  //   deleteBtns[i].addEventListener('click', $event => {
-  //     console.log(deleteBtns);
-  //     const currentId = $event.target.parentElement.parentElement.id;
-  //     console.log(currentId);
-  //     const todoItems = JSON.parse(localStorage.getItem('todos'));
-  //
-  //     for (let item = 0; item < todoItems.length; item += 1) {
-  //       if (todoItems[item].id === currentId) {
-  //         todoItems.splice(item, 1);
-  //       }
-  //     }
-  //
-  //     localStorage.setItem('todos', JSON.stringify(todoItems));
-  //
-  //     fetchTodos();
-  //   });
-  // }
 
   // Edit an existing task.
   // let editBtns = document.querySelectorAll('.edit-btn');
@@ -226,60 +201,6 @@ function fetchTodos() {
   // }
 }
 
-function saveTodoItem(e) {
-  // Get form values
-  const titleTodo = document.getElementById('title').value;
-  const descriptionTodo = document.getElementById('description').value;
-  const priorityOptions = document.querySelector('.options');
-  const optionsArr = Array.from(priorityOptions);
-
-  const todoItem = {
-    title: titleTodo,
-    description: descriptionTodo,
-    priority: '',
-    id: `f${(+new Date()).toString(16)}`,
-    status: false,
-  };
-
-  optionsArr.forEach(el => {
-    if (el.selected === true) {
-      todoItem.priority = el.value;
-    }
-  });
-
-  // if(!validateForm(titleTodo, descriptionTodo)){
-  //   return false;
-  // }
-
-  if (localStorage.getItem('todos') === null) {
-    const todoItems = [];
-    todoItems.push(todoItem);
-    localStorage.setItem('todos', JSON.stringify(todoItems));
-    console.log(localStorage);
-  } else {
-    const todoItems = JSON.parse(localStorage.getItem('todos'));
-    todoItems.push(todoItem);
-    localStorage.setItem('todos', JSON.stringify(todoItems));
-    console.log(localStorage);
-  }
-
-  // Clear form
-  document.getElementById('newTodoItem').reset();
-
-  // Re-fetch todos
-  fetchTodos();
-
-  // Prevent form from submitting
-  e.preventDefault();
-}
-
-document.getElementById('newTodoItem').addEventListener('submit', saveTodoItem);
-
-// function validateForm(title, description) {
-//   if (!title || !description) {
-//     alert('Please fill in the form');
-//     return false;
-//   }
-// }
+document.getElementById('newTodoItem').addEventListener('submit', () => saveTodoItem(fetchTodos));
 
 fetchTodos();
