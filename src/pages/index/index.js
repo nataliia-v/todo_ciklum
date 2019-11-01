@@ -14,6 +14,7 @@ import 'normalize.css';
 
 // let menu = createMenu(['Главная','Блог'], 'menu');
 const header = createHeader(['TODOList'], 'header');
+const modal = document.getElementById('myModal');
 
 document.body.appendChild(header);
 document.body.appendChild(filters());
@@ -25,15 +26,6 @@ searchByInput();
 // filterByPriority  - it's a third filter
 
 filterByPriority();
-
-const close = document.getElementById('cancelModalBtn');
-const modal = document.getElementById('myModal');
-
-console.log(close);
-
-close.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
 
 // это нужно разнести по файлам
 // //////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +57,7 @@ export default function fetchTodos() {
       // hidden inputs
 
       const editTitleInput = document.createElement('input');
+      const editDescriptionTextarea = document.createElement('textarea');
 
       const container = document.createElement('div');
       container.className = 'container';
@@ -80,6 +73,7 @@ export default function fetchTodos() {
       currentRow.className = 'todoItem';
       currentTitleTodo.className = 'title-todo';
       editTitleInput.className = 'edit-title-todo';
+      editDescriptionTextarea.className = 'edit-description-todo';
       currentDescription.className = 'description-todo';
       currentPriority.className = 'priority';
 
@@ -88,6 +82,7 @@ export default function fetchTodos() {
       currentPriority.innerHTML = el.priority;
 
       editTitleInput.style.display = 'none';
+      editDescriptionTextarea.style.display = 'none';
 
       if (el.status) {
         currentRow.className = 'todoItem done';
@@ -102,6 +97,7 @@ export default function fetchTodos() {
 
       currentRow.appendChild(currentTitleTodo);
       currentRow.appendChild(editTitleInput);
+      currentRow.appendChild(editDescriptionTextarea);
       currentRow.appendChild(currentDescription);
       currentRow.appendChild(currentStatusBtn);
       currentRow.appendChild(container);
@@ -179,22 +175,47 @@ export default function fetchTodos() {
 
       for (let el = 0; el < editBtns.length; el += 1) {
         editBtns[el].addEventListener('click', $event => {
+          editBtns[el].innerHTML = 'save changes';
           const currentId = $event.target.parentElement.parentElement.id;
           const currentTodoItem = $event.target.parentElement.parentElement;
-          const titleInput = currentTodoItem.children[1];
 
-          currentTodoItem.children[0].style.display = 'none';
+          let titleInput = '';
+          let title = '';
+          let descriptionTextarea = '';
+          let description = '';
+
+          const collection = currentTodoItem.childNodes;
+
+          collection.forEach(item => {
+            switch (item.className) {
+              case 'edit-title-todo':
+                titleInput = item;
+                break;
+              case 'title-todo':
+                title = item;
+                break;
+              case 'edit-description-todo':
+                descriptionTextarea = item;
+                break;
+              case 'description-todo':
+                description = item;
+                break;
+              default:
+                return collection;
+            }
+            return true;
+          });
+
+          title.style.display = 'none';
           titleInput.style.display = 'block';
-
-          // console.log(titleInput.value = currentTodoItem.children[0].textContent);
+          description.style.display = 'none';
+          descriptionTextarea.style.display = 'block';
 
           editBtns[el].addEventListener('click', () => {
             for (let item = 0; item < todoItems.length; item += 1) {
               if (todoItems[item].id === currentId) {
-                const ggg = titleInput.value;
-                console.log(ggg);
-
                 todoItems[item].title = titleInput.value;
+                todoItems[item].description = descriptionTextarea.value;
 
                 localStorage.setItem('todos', JSON.stringify(todoItems));
               }

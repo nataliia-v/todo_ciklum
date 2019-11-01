@@ -1,5 +1,5 @@
 {
-  "name": "webpack-app",
+  "name": "todo-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "eslint-fix": "eslint --fix --ext js src"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nataliia Verbenska",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.0.0",
