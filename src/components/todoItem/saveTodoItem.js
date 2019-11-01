@@ -1,5 +1,3 @@
-// import fetchTodos from '../../pages/index/index';
-
 export default function(fetchTodos) {
   // Get form values
   const titleTodo = document.getElementById('title').value;
@@ -14,6 +12,12 @@ export default function(fetchTodos) {
     id: `f${(+new Date()).toString(16)}`,
     status: false,
   };
+
+  // const cls = document.getElementById('cancelModalBtn');
+  // let modal = document.getElementById('myModal');
+  // cls.addEventListener('click', () => {
+  //   modal.style.display = 'none';
+  // });
 
   optionsArr.forEach(el => {
     if (el.selected === true) {

@@ -22,9 +22,18 @@ document.body.appendChild(modalWindow());
 // searchByInput  - it's a first filter
 searchByInput();
 
-// searchByPriority  - it's a second filter
+// filterByPriority  - it's a third filter
 
 filterByPriority();
+
+const close = document.getElementById('cancelModalBtn');
+let modal = document.getElementById('myModal');
+
+console.log(close);
+
+close.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
 
 // это нужно разнести по файлам
 // //////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +62,10 @@ export default function fetchTodos() {
       const btnsWrap = document.createElement('span');
       const dotsBtn = document.createElement('span');
 
+      //hidden inputs
+
+      let editTitleInput = document.createElement('input');
+
       const container = document.createElement('div');
       container.className = 'container';
 
@@ -66,12 +79,15 @@ export default function fetchTodos() {
       currentStatusBtn.className = 'status-btn';
       currentRow.className = 'todoItem';
       currentTitleTodo.className = 'title-todo';
+      editTitleInput.className = 'edit-title-todo';
       currentDescription.className = 'description-todo';
       currentPriority.className = 'priority';
 
       currentTitleTodo.innerHTML = el.title;
       currentDescription.innerHTML = el.description;
       currentPriority.innerHTML = el.priority;
+
+      editTitleInput.style.display = 'none';
 
       if (el.status) {
         currentRow.className = 'todoItem done';
@@ -85,6 +101,7 @@ export default function fetchTodos() {
       container.appendChild(dotsBtn);
 
       currentRow.appendChild(currentTitleTodo);
+      currentRow.appendChild(editTitleInput);
       currentRow.appendChild(currentDescription);
       currentRow.appendChild(currentStatusBtn);
       currentRow.appendChild(container);
@@ -126,7 +143,6 @@ export default function fetchTodos() {
       for (let el = 0; el < deleteBtns.length; el += 1) {
         deleteBtns[el].addEventListener('click', $event => {
           const currentId = $event.target.parentElement.parentElement.id;
-          // const todoItems = JSON.parse(localStorage.getItem('todos'));
 
           for (let item = 0; item < todoItems.length; item += 1) {
             if (todoItems[item].id === currentId) {
@@ -158,49 +174,101 @@ export default function fetchTodos() {
           fetchTodos();
         });
       }
+
+      // Edit todo
+      let editBtns = document.querySelectorAll('.edit-btn');
+
+      for (let el = 0; el < editBtns.length; el += 1) {
+        editBtns[el].addEventListener('click', $event => {
+          const currentId = $event.target.parentElement.parentElement.id;
+          const currentTodoItem = $event.target.parentElement.parentElement;
+          const titleInput = currentTodoItem.children[1];
+          console.log(currentId);
+          console.log(currentTodoItem.children[0]);
+          currentTodoItem.children[0].style.display = 'none';
+
+          titleInput.style.display = 'block';
+          titleInput.value = currentTodoItem.children[0].textContent;
+
+          for (let item = 0; item < todoItems.length; item += 1) {
+            if (todoItems[item].id === currentId) {
+              todoItems[item].title = titleInput.value;
+
+              // fetchTodos();
+
+              console.log(titleInput.value);
+              localStorage.setItem('todos', JSON.stringify(todoItems));
+            }
+          }
+          // localStorage.setItem('todos', JSON.stringify(todoItems));
+          //
+          // fetchTodos();
+
+          // let currentEditTitleTodo = document.querySelector('edit-title-todo')
+
+          // let titleInput = document.createElement('input');
+          // currentTodo.appendChild(titleInput)
+
+          // for (let item = 0; item < todoItems.length; item += 1) {
+          //   if (todoItems[item].id === currentId) {
+          //     todoItems.splice(item, 1);
+          //   }
+          // }
+          //
+          // localStorage.setItem('todos', JSON.stringify(todoItems));
+          //
+          // fetchTodos();
+        });
+      }
     });
   }
 
   // Edit an existing task.
   // let editBtns = document.querySelectorAll('.edit-btn');
+
+  // for (let i = 0; i < editBtns.length; i++) {
+  // editBtns[i].addEventListener('click', ($event) => {
+  //
+  //   // let currentTodoText = $event.target.parentElement.parentElement.children[1].textContent;
+  //   // let todoItems = JSON.parse(localStorage.getItem('todos'));
+  //   let listItem = $event.target.parentNode;
+  //   let editInput=listItem.querySelector('input[type=text]');
+  //   let label = document.querySelector(".title-todo");
+  //   let containsClass=listItem.classList.contains("todoItem");
+  //   // console.log(label);
+  //
+  //   console.log(listItem);
+  //   //
+  //   // if(containsClass){
+  //   //
+  //   //   //switch to .editmode
+  //   //   //label becomes the inputs value.
+  //   //   label.innerText=editInput.value;
+  //   // }else{
+  //   //   editInput.value=label.innerText;
+  //   // }
+  //
+  //   //toggle .editmode on the parent.
+  //   // listItem.classList.toggle("todoItem");
   //
   //
-  // for (let i = 0; i < deleteBtns.length; i++) {
-  //   editBtns[i].addEventListener('click', ($event) => {
+  //   // for (let i = 0; i < todoItems.length; i++) {
+  //   //
+  //   // }
   //
-  //     // let currentTodoText = $event.target.parentElement.parentElement.children[1].textContent;
-  //     // let todoItems = JSON.parse(localStorage.getItem('todos'));
-  //     let listItem = $event.target.parentNode;
-  //     let editInput=listItem.querySelector('input[type=text]');
-  //     let label = document.querySelector(".title-todo");
-  //     let containsClass=listItem.classList.contains("todoItem");
-  //     console.log(label);
+  //   // localStorage.setItem('todos', JSON.stringify(todoItems));
+  //   fetchTodos();
+  // });
   //
-  //     console.log(listItem);
-  //
-  //     if(containsClass){
-  //
-  //       //switch to .editmode
-  //       //label becomes the inputs value.
-  //       label.innerText=editInput.value;
-  //     }else{
-  //       editInput.value=label.innerText;
-  //     }
-  //
-  //     //toggle .editmode on the parent.
-  //     listItem.classList.toggle("todoItem");
-  //
-  //
-  //     // for (let i = 0; i < todoItems.length; i++) {
-  //     //
-  //     // }
-  //
-  //     // localStorage.setItem('todos', JSON.stringify(todoItems));
-  //     fetchTodos();
-  //   });
   // }
 }
 
-document.getElementById('newTodoItem').addEventListener('submit', () => saveTodoItem(fetchTodos));
+// modal window cancel or submit
+//cancel
+document.getElementById('cancelModalBtn').addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+//submit
+document.getElementById('submitModalBtn').addEventListener('click', () => saveTodoItem(fetchTodos));
 
 fetchTodos();

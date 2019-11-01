@@ -36,7 +36,7 @@ const modalWindowFields = () => {
   return modalWindowContainer;
 };
 
-// //modal window
+//modal window
 export default function() {
   const btn = document.getElementById('addNewTodo');
 
@@ -58,5 +58,6 @@ export default function() {
       modal.style.display = 'none';
     }
   });
+
   return modal;
 }
