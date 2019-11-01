@@ -1,10 +1,8 @@
-// import createMenu from '../../components/menu/menu';
-import createHeader from '../../components/header/header';
+import createHeaderOrFooter from '../../components/headerFooter';
 import filters from '../../components/filters/filters';
 import modalWindow from '../../components/modalWindow/modalWindow';
 import searchByInput from '../../components/filters/searchByInput';
 import filterByPriority from '../../components/filters/filterByPriority';
-
 import saveTodoItem from '../../components/todoItem/saveTodoItem';
 
 // import todoItems from '../../components/todoItem/todoItem';
@@ -12,13 +10,14 @@ import saveTodoItem from '../../components/todoItem/saveTodoItem';
 import './index.scss';
 import 'normalize.css';
 
-// let menu = createMenu(['Главная','Блог'], 'menu');
-const header = createHeader(['TODOList'], 'header');
+const header = createHeaderOrFooter(['TODOList'], 'header');
+const footer = createHeaderOrFooter(['Nataliia Verbenska'], 'footer');
 const modal = document.getElementById('myModal');
 
 document.body.appendChild(header);
 document.body.appendChild(filters());
 document.body.appendChild(modalWindow());
+document.body.appendChild(footer);
 
 // searchByInput  - it's a first filter
 searchByInput();
@@ -53,22 +52,15 @@ export default function fetchTodos() {
       const currentStatusBtn = document.createElement('div');
       const btnsWrap = document.createElement('span');
       const dotsBtn = document.createElement('span');
-
-      // hidden inputs
-
       const editTitleInput = document.createElement('input');
       const editDescriptionTextarea = document.createElement('textarea');
-
       const container = document.createElement('div');
-      container.className = 'container';
-
-      dotsBtn.className = 'dots-btn';
-      dotsBtn.innerHTML = '...';
-      btnsWrap.className = 'btns-wrap';
-      btnsWrap.setAttribute('visibility-wrap', 'false');
 
       currentRow.id = el.id;
 
+      container.className = 'container';
+      dotsBtn.className = 'dots-btn';
+      btnsWrap.className = 'btns-wrap';
       currentStatusBtn.className = 'status-btn';
       currentRow.className = 'todoItem';
       currentTitleTodo.className = 'title-todo';
@@ -77,6 +69,7 @@ export default function fetchTodos() {
       currentDescription.className = 'description-todo';
       currentPriority.className = 'priority';
 
+      dotsBtn.innerHTML = '...';
       currentTitleTodo.innerHTML = el.title;
       currentDescription.innerHTML = el.description;
       currentPriority.innerHTML = el.priority;
@@ -94,7 +87,6 @@ export default function fetchTodos() {
 
       container.appendChild(currentPriority);
       container.appendChild(dotsBtn);
-
       currentRow.appendChild(currentTitleTodo);
       currentRow.appendChild(editTitleInput);
       currentRow.appendChild(editDescriptionTextarea);
@@ -191,6 +183,7 @@ export default function fetchTodos() {
           let description = '';
 
           const collection = currentTodoItem.childNodes;
+
           collection.forEach(item => {
             switch (item.className) {
               case 'edit-title-todo':
@@ -232,6 +225,37 @@ export default function fetchTodos() {
     });
   }
 }
+
+// function filtersSum() {
+//     const filters = {
+//         search: 'some search string',
+//         status: 'open',
+//     priority: 'high',
+//     };
+//
+//   const filtersToApply = Object.keys(filters).filter(filterKey => filters[filterKey]);
+//
+//   // юзаешь его в функции фильтрации списка:
+//
+//     const filterSearchRegexp = new RegExp(filters.search, 'i');
+//
+//   const todoListItems = filtersToApply.length
+//         ? allTodoListItems.filter(item => {
+//             return filtersToApply.every(filterName => {
+//                 switch (filterName) {
+//                     case 'search':
+//               return new RegExp(filters.search, 'i').test(item.name);
+//             case 'status':
+//                         return item.status === filters.status;
+//             case 'priority':
+//                         return item.priority === filters.priority;
+//                     default:
+//                         return true;
+//                 }
+//             });
+//         })
+//         : allTodoListItems;
+// }
 
 // modal window cancel or submit
 // cancel
