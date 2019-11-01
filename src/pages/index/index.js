@@ -53,7 +53,7 @@ export default function fetchTodos() {
       const btnsWrap = document.createElement('span');
       const dotsBtn = document.createElement('span');
       const editTitleInput = document.createElement('input');
-      const editDescriptionTextarea = document.createElement('textarea');
+      const editDescriptionTextarea = document.createElement('input');
       const container = document.createElement('div');
 
       currentRow.id = el.id;
@@ -184,6 +184,7 @@ export default function fetchTodos() {
 
           const collection = currentTodoItem.childNodes;
 
+          /* eslint-disable */
           collection.forEach(item => {
             switch (item.className) {
               case 'edit-title-todo':
@@ -201,23 +202,43 @@ export default function fetchTodos() {
               default:
                 return collection;
             }
+
             return true;
           });
+          /* eslint-enable */
 
           title.style.display = 'none';
           titleInput.style.display = 'block';
           description.style.display = 'none';
           descriptionTextarea.style.display = 'block';
 
-          editBtns[el].addEventListener('click', () => {
-            for (let item = 0; item < todoItems.length; item += 1) {
-              if (todoItems[item].id === currentId) {
-                todoItems[item].title = titleInput.value;
-                todoItems[item].description = descriptionTextarea.value;
+          titleInput.setAttribute('value', title.textContent);
+          descriptionTextarea.setAttribute('value', description.textContent);
 
-                localStorage.setItem('todos', JSON.stringify(todoItems));
-              }
-            }
+          const editButton = editBtns[el];
+
+          editButton.addEventListener('click', () => {
+            const todoItem = todoItems.find(item => item.id === currentId);
+
+            todoItem.title = titleInput.value;
+            todoItem.description = descriptionTextarea.value;
+
+            const updatedTodoItems = todoItems.map(item => {
+              const isCurrentItem = item.id === currentId;
+
+              return isCurrentItem
+                ? {
+                    /* eslint-disable */
+                    ...item,
+                    title: titleInput.value,
+                    description: descriptionTextarea.value,
+                  }
+                : item;
+              /* eslint-enable */
+            });
+
+            localStorage.setItem('todos', JSON.stringify(updatedTodoItems));
+
             fetchTodos();
           });
         });
