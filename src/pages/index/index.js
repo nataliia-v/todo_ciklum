@@ -131,6 +131,12 @@ export default function fetchTodos() {
       btnsWrap[i].appendChild(editItem);
       btnsWrap[i].appendChild(deleteItem);
 
+      dots[i].addEventListener('click', () => {
+        btnsWrap[i].style.display = 'none';
+        dots[i].innerHTML = '...';
+        fetchTodos();
+      });
+
       // Delete todo
 
       const deleteBtns = document.querySelectorAll('.delete-btn');
@@ -185,7 +191,6 @@ export default function fetchTodos() {
           let description = '';
 
           const collection = currentTodoItem.childNodes;
-
           collection.forEach(item => {
             switch (item.className) {
               case 'edit-title-todo':

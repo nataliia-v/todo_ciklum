@@ -1,17 +1,27 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 i {
     width: 20px;
 }
 
-li input[type=text] {
-    display:none;
-}
 .todoItem {
     margin-right: 30px;
     margin-bottom: 30px;
-}
 
-.todoItem input[type=text] {
-    display:block;
+    .edit-title-todo {
+        padding: 5px 10px;
+        width: 100%;
+        margin-bottom: 35px;
+    }
+
+    .edit-description-todo {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
 
 .todoItem #title {
@@ -19,7 +29,7 @@ li input[type=text] {
 }
 
 .filters-container {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 //////todos list
@@ -27,10 +37,6 @@ li input[type=text] {
 .done {
     background-color: rgba(181, 181, 181, 0.59);
 }
-
-//.btns-wrap {
-//    display: none;
-//}
 
 #todos-table-container li {
 
