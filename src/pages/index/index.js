@@ -37,9 +37,9 @@ export default function fetchTodos() {
     filterKey => selectedFilters[filterKey],
   );
 
+  /* eslint-disable indent */
   const filteredTodoItems = Object.values(selectedFilters).some(Boolean)
     ? todoItems.filter(item => {
-        /* eslint-disable */
         return filtersToApply.every(filterName => {
           switch (filterName) {
             case 'search':
@@ -57,9 +57,12 @@ export default function fetchTodos() {
             default:
               return true;
           }
+
+          return null;
         });
       })
     : todoItems;
+  /* eslint-enable indent */
 
   createTodoItem(filteredTodoItems);
 

@@ -15,7 +15,7 @@ export default function(fetchTodos) {
 
       const collection = currentTodoItem.childNodes;
 
-      /* eslint-disable */
+      /* eslint-disable indent */
       collection.forEach(item => {
         switch (item.className) {
           case 'edit-title-todo':
@@ -36,7 +36,7 @@ export default function(fetchTodos) {
 
         return true;
       });
-      /* eslint-enable */
+      /* eslint-enable indent */
 
       title.style.display = 'none';
       titleInput.style.display = 'block';
@@ -56,7 +56,7 @@ export default function(fetchTodos) {
 
         const updatedTodoItems = todoItems.map(item => {
           const isCurrentItem = item.id === currentId;
-          /* eslint-disable */
+          /* eslint-disable indent */
           return isCurrentItem
             ? {
                 ...item,
@@ -64,7 +64,7 @@ export default function(fetchTodos) {
                 description: descriptionTextarea.value,
               }
             : item;
-          /* eslint-enable */
+          /* eslint-enable indent */
         });
 
         localStorage.setItem('todos', JSON.stringify(updatedTodoItems));

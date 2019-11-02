@@ -19,11 +19,11 @@ export default updateTodos => {
     updateTodos();
   };
 
-  /* eslint-disable */
+  /* eslint-disable no-unused-expressions */
   [searchInput, prioritySelect, statusSelect].forEach(filterInput => {
     filterInput.id === 'search'
       ? filterInput.addEventListener('input', changeListener)
       : filterInput.addEventListener('change', changeListener);
   });
-  /* eslint-enable */
+  /* eslint-enable no-unused-expressions */
 };
