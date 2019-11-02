@@ -14,11 +14,12 @@ import createTodoItem from '../../components/todoItem/createTodoItem';
 const header = createHeaderOrFooter(['TODOList'], 'header');
 const footer = createHeaderOrFooter(['Nataliia Verbenska'], 'footer');
 const modal = document.getElementById('myModal');
+const container = document.getElementById('container');
 
-document.body.appendChild(header);
-document.body.appendChild(filters());
-document.body.appendChild(modalWindow());
-document.body.appendChild(footer);
+container.appendChild(header);
+container.appendChild(filters());
+container.appendChild(modalWindow());
+container.appendChild(footer);
 
 const resetFilters = () => {
   localStorage.removeItem('filters');

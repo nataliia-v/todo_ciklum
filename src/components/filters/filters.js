@@ -1,5 +1,3 @@
-import './filters.scss';
-
 const arrayStatus = ['All', 'Open', 'Done'];
 const arrayPriority = ['All', 'High', 'Normal', 'Low'];
 

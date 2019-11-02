@@ -21,27 +21,17 @@ const common = merge([
   {
     entry: {
       index: `${PATHS.source}/pages/index/index.js`,
-      // blog: `${PATHS.source}/pages/blog/blog.js`,
     },
     output: {
       path: PATHS.build,
       filename: './js/[name].js',
     },
     plugins: [
-      // new webpack.ProvidePlugin({
-      //   $: 'jquery',
-      //   jQuery: 'jquery',
-      // }),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         chunks: ['index', 'common'],
         template: `${PATHS.source}/pages/index/index.pug`,
       }),
-      // new HtmlWebpackPlugin({
-      //   filename: 'blog.html',
-      //   chunks: ['blog', 'common'],
-      //   emplate: `${PATHS.source}/pages/blog/blog.pug`,
-      // }),
     ],
     optimization: {
       splitChunks: {

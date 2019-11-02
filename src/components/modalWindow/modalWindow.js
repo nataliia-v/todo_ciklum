@@ -1,5 +1,3 @@
-import './modalWindow.scss';
-
 const modalWindowForm = () => {
   const modalWindowContainer = document.createElement('form');
   modalWindowContainer.className = 'disable-modal';

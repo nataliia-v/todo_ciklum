@@ -1,5 +1,3 @@
-import './index.scss';
-
 export default function(array, className) {
   const element = document.createElement('ul');
   element.className = className;

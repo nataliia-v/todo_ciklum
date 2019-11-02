@@ -1,4 +1,4 @@
-import './todoItem.scss';
+// import './todoItem.scss';
 
 export default function(filteredTodoItems) {
   const todoItems = JSON.parse(localStorage.getItem('todos'));

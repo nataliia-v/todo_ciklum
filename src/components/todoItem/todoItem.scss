@@ -1,3 +1,7 @@
+#todos-table-container {
+  flex: 1;
+}
+
 #todos-table-container li {
 
   list-style-type: none;
@@ -61,6 +65,7 @@
   justify-content: space-around;
   flex-wrap: wrap;
   padding: 0 50px;
+  //height: 80vh;
 }
 
 i {
