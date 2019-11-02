@@ -13,12 +13,6 @@ export default function(fetchTodos) {
     status: false,
   };
 
-  // const cls = document.getElementById('cancelModalBtn');
-  // let modal = document.getElementById('myModal');
-  // cls.addEventListener('click', () => {
-  //   modal.style.display = 'none';
-  // });
-
   optionsArr.forEach(el => {
     if (el.selected === true) {
       todoItem.priority = el.value;

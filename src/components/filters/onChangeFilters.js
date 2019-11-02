@@ -5,7 +5,7 @@ export default updateTodos => {
 
   const changeListener = e => {
     const filterName = e.target.id;
-    const value = e.target.value;
+    const { value } = e.target;
 
     const alreadySelectedFilters = JSON.parse(localStorage.getItem('filters'));
 
@@ -19,9 +19,11 @@ export default updateTodos => {
     updateTodos();
   };
 
+  /* eslint-disable */
   [searchInput, prioritySelect, statusSelect].forEach(filterInput => {
     filterInput.id === 'search'
       ? filterInput.addEventListener('input', changeListener)
       : filterInput.addEventListener('change', changeListener);
   });
+  /* eslint-enable */
 };

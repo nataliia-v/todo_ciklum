@@ -1,7 +1,7 @@
 import './filters.scss';
 
-const array1 = ['All', 'Open', 'Done'];
-const array2 = ['All', 'High', 'Normal', 'Low'];
+const arrayStatus = ['All', 'Open', 'Done'];
+const arrayPriority = ['All', 'High', 'Normal', 'Low'];
 
 // Search todo-item by title
 
@@ -41,14 +41,11 @@ const createButton = () => {
 const createBodyForTodos = () => {
   const bodyforTodos = document.createElement('span');
   bodyforTodos.id = 'tableBody';
-  // bodyforTodos.innerHTML = 'Create';
-
   return bodyforTodos;
 };
 
 export default function() {
   const todosTableContainer = document.createElement('div');
-  // todosTableContainer.className = 'todos-table-container';
 
   todosTableContainer.id = 'todos-table-container';
 
@@ -56,8 +53,8 @@ export default function() {
   filtersContainer.className = 'filters-container';
 
   filtersContainer.appendChild(titleFilter());
-  filtersContainer.appendChild(selectOption(array1, 'status-filter', 'status'));
-  filtersContainer.appendChild(selectOption(array2, 'priority-filter', 'priority'));
+  filtersContainer.appendChild(selectOption(arrayStatus, 'status-filter', 'status'));
+  filtersContainer.appendChild(selectOption(arrayPriority, 'priority-filter', 'priority'));
   filtersContainer.appendChild(createButton());
   todosTableContainer.appendChild(filtersContainer);
   todosTableContainer.appendChild(createBodyForTodos());

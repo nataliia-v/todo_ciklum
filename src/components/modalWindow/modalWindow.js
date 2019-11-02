@@ -1,6 +1,6 @@
 import './modalWindow.scss';
 
-const modalWindowFields = () => {
+const modalWindowForm = () => {
   const modalWindowContainer = document.createElement('form');
   modalWindowContainer.className = 'disable-modal';
   modalWindowContainer.id = 'newTodoItem';
@@ -47,7 +47,7 @@ export default function() {
   const modalContent = document.createElement('div');
   modalContent.className = 'modal-content';
   modal.appendChild(modalContent);
-  modalContent.appendChild(modalWindowFields());
+  modalContent.appendChild(modalWindowForm());
 
   btn.addEventListener('click', () => {
     modal.style.display = 'block';
