@@ -1,8 +1,8 @@
 import createHeaderOrFooter from '../../components/headerFooter';
 import filters from '../../components/filters/filters';
 import modalWindow from '../../components/modalWindow/modalWindow';
-import searchByInput from '../../components/filters/searchByInput';
-import filterByPriority from '../../components/filters/filterByPriority';
+
+import onChangeFilters from '../../components/filters/onChangeFilters';
 import saveTodoItem from '../../components/todoItem/saveTodoItem';
 
 // import todoItems from '../../components/todoItem/todoItem';
@@ -19,20 +19,22 @@ document.body.appendChild(filters());
 document.body.appendChild(modalWindow());
 document.body.appendChild(footer);
 
-// searchByInput  - it's a first filter
-searchByInput();
-
-// filterByPriority  - it's a third filter
-
-filterByPriority();
-
 // это нужно разнести по файлам
 // //////////////////////////////////////////////////////////////////////////////////////////
+
+const resetFilters = () => {
+  localStorage.removeItem('filters');
+};
+
+resetFilters();
 
 // Fetch todos
 
 export default function fetchTodos() {
   const todoItems = JSON.parse(localStorage.getItem('todos'));
+  const selectedFilters = JSON.parse(localStorage.getItem('filters')) || {};
+
+  console.log('selectedFilters', selectedFilters);
 
   const tableContainer = document.getElementById('todos-table-container');
   const oldTableBody = document.getElementById('tableBody');
@@ -43,8 +45,35 @@ export default function fetchTodos() {
 
   tableContainer.appendChild(newTableBody);
 
+  const filtersToApply = Object.keys(selectedFilters).filter(
+    filterKey => selectedFilters[filterKey],
+  );
+
+  const filteredTodoItems = Object.values(selectedFilters).some(Boolean)
+    ? todoItems.filter(item => {
+        return filtersToApply.every(filterName => {
+          switch (filterName) {
+            case 'search':
+              return new RegExp(selectedFilters.search, 'i').test(item.title);
+            case 'status': {
+              if (selectedFilters.status === 'All') return true;
+              if (selectedFilters.status === 'Open') return item.status === false;
+              if (selectedFilters.status === 'Done') return item.status === true;
+              break;
+            }
+            case 'priority':
+              if (selectedFilters.priority === 'All') return true;
+
+              return item.priority === selectedFilters.priority;
+            default:
+              return true;
+          }
+        });
+      })
+    : todoItems;
+
   if (todoItems) {
-    todoItems.forEach(el => {
+    filteredTodoItems.forEach(el => {
       const currentRow = document.createElement('li');
       const currentTitleTodo = document.createElement('h3');
       const currentDescription = document.createElement('div');
@@ -159,7 +188,7 @@ export default function fetchTodos() {
 
           for (let item = 0; item < todoItems.length; item += 1) {
             if (todoItems[item].id === currentId) {
-              todoItems[item].status = 'true';
+              todoItems[item].status = true;
             }
           }
           localStorage.setItem('todos', JSON.stringify(todoItems));
@@ -225,10 +254,9 @@ export default function fetchTodos() {
 
             const updatedTodoItems = todoItems.map(item => {
               const isCurrentItem = item.id === currentId;
-
+              /* eslint-disable */
               return isCurrentItem
                 ? {
-                    /* eslint-disable */
                     ...item,
                     title: titleInput.value,
                     description: descriptionTextarea.value,
@@ -247,37 +275,6 @@ export default function fetchTodos() {
   }
 }
 
-// function filtersSum() {
-//     const filters = {
-//         search: 'some search string',
-//         status: 'open',
-//     priority: 'high',
-//     };
-//
-//   const filtersToApply = Object.keys(filters).filter(filterKey => filters[filterKey]);
-//
-//   // юзаешь его в функции фильтрации списка:
-//
-//     const filterSearchRegexp = new RegExp(filters.search, 'i');
-//
-//   const todoListItems = filtersToApply.length
-//         ? allTodoListItems.filter(item => {
-//             return filtersToApply.every(filterName => {
-//                 switch (filterName) {
-//                     case 'search':
-//               return new RegExp(filters.search, 'i').test(item.name);
-//             case 'status':
-//                         return item.status === filters.status;
-//             case 'priority':
-//                         return item.priority === filters.priority;
-//                     default:
-//                         return true;
-//                 }
-//             });
-//         })
-//         : allTodoListItems;
-// }
-
 // modal window cancel or submit
 // cancel
 document.getElementById('cancelModalBtn').addEventListener('click', () => {
@@ -287,3 +284,5 @@ document.getElementById('cancelModalBtn').addEventListener('click', () => {
 document.getElementById('submitModalBtn').addEventListener('click', () => saveTodoItem(fetchTodos));
 
 fetchTodos();
+
+onChangeFilters(fetchTodos);

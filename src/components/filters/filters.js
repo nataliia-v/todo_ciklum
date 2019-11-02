@@ -7,23 +7,24 @@ const array2 = ['All', 'High', 'Normal', 'Low'];
 
 const titleFilter = () => {
   const filter = document.createElement('div');
-  const name = '<input type="text" id="searchByInput" placeholder="search by title">';
+  const name = '<input type="text" id="search" placeholder="search by title">';
   filter.innerHTML = name;
   return filter;
 };
 
 // Filter todo-item by status or priority;
 
-const selectOption = (array, className) => {
-  const filterStatus = document.createElement('select');
-  filterStatus.className = className;
+const selectOption = (array, className, id) => {
+  const filter = document.createElement('select');
+  filter.className = className;
+  filter.id = id;
   let filterParameters = '';
   array.forEach(item => {
     filterParameters += `<option>${item}</option>`;
   });
-  filterStatus.innerHTML = filterParameters;
+  filter.innerHTML = filterParameters;
 
-  return filterStatus;
+  return filter;
 };
 
 // button for modal or priority
@@ -55,19 +56,11 @@ export default function() {
   filtersContainer.className = 'filters-container';
 
   filtersContainer.appendChild(titleFilter());
-  filtersContainer.appendChild(selectOption(array1, 'status-filter'));
-  filtersContainer.appendChild(selectOption(array2, 'priority-filter'));
+  filtersContainer.appendChild(selectOption(array1, 'status-filter', 'status'));
+  filtersContainer.appendChild(selectOption(array2, 'priority-filter', 'priority'));
   filtersContainer.appendChild(createButton());
   todosTableContainer.appendChild(filtersContainer);
   todosTableContainer.appendChild(createBodyForTodos());
 
   return todosTableContainer;
 }
-
-// eslint-disable-next-line no-undef
-// console.log(filtersContainer);
-
-// <input type="text" placeholder="search by title">
-
-// let nnn = document.querySelector('.filtersContainer');
-// console.log(nnn);
